@@ -1,0 +1,3 @@
+READ
+test_storage1/file1.txt
+EXIT

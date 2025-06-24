@@ -1,0 +1,13 @@
+Connecting to Naming Server as client ...
+Enter file path: Request sent to Naming Server: READ test_storage1/file1.txt
+
+Connected to Naming Server
+
+Enter a command: Naming Server sent the details of the storage server:
+IP: 172.18.246.198 Port: 9091
+
+Connecting to Storage Server at IP: 172.18.246.198, Port: 9091
+File content:
+hello my name is jainil lol
+EOF
+Enter a command: Exiting.
