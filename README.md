@@ -139,8 +139,8 @@ Enter data to write: Hello, world!
 
 ## Authors
 
-- [Your Team Name/Number]
-- [Your Names]
+
+- Jainil Bavishi
 
 ---
 
