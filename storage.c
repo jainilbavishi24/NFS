@@ -76,7 +76,8 @@ FileAccessControl *get_file_access(const char *file_path)
     if (file_access_count < MAX_FILES)
     {
         printf("Creating new access control for file: %s\n", file_path);
-        strcpy(file_access_controls[file_access_count].file_path, file_path);
+        strncpy(file_access_controls[file_access_count].file_path, file_path, BUFFER_SIZE - 1);
+        file_access_controls[file_access_count].file_path[BUFFER_SIZE - 1] = '\0';
         pthread_mutex_init(&file_access_controls[file_access_count].write_mutex, NULL);
         pthread_mutex_init(&file_access_controls[file_access_count].read_mutex, NULL);
         pthread_cond_init(&file_access_controls[file_access_count].write_cond, NULL);
@@ -952,127 +953,8 @@ void handle_client(int client_sock)
         // Check if the command is "STORE"
 
         if (strcmp(command, "STORE") == 0)
-
         {
-            // const char *second_space = strchr(first_space + 1, ' ');
-
-            // if (!second_space)
-
-            // {
-
-            //     fprintf(stderr, "Error: Invalid format, no file content found\n");
-
-            //     return;
-
-            // }
-
-            // size_t filepath_length = second_space - first_space - 1;
-
-            // strncpy(filepath, first_space + 1, filepath_length);
-
-            // filepath[filepath_length] = '\0'; // Null-terminate the filepath
-
-            // file_content = second_space + 1;
-
-            // // Check for EOF marker
-
-            // char *eof_marker = strstr(file_content, "EOF");
-
-            // size_t content_length;
-
-            // if (eof_marker)
-
-            // {
-
-            //     content_length = eof_marker - file_content; // Exclude EOF
-
-            // }
-
-            // else
-
-            // {
-
-            //     fprintf(stderr, "Warning: EOF marker missing, writing all received data\n");
-
-            //     content_length = strlen(file_content); // Write everything received
-
-            // }
-
-            // // Copy file content to a writable buffer
-
-            // char writable_content[BUFFER_SIZE];
-
-            // if (content_length >= BUFFER_SIZE)
-
-            // {
-
-            //     fprintf(stderr, "Error: Content too large to handle\n");
-
-            //     return;
-
-            // }
-
-            // strncpy(writable_content, file_content, content_length);
-
-            // writable_content[content_length] = '\0'; // Null-terminate
-
-            // // Create directories for the filepath if necessary
-
-            // char directory_path[BUFFER_SIZE];
-
-            // strncpy(directory_path, filepath, BUFFER_SIZE);
-
-            // strncpy(directory_path, filepath, BUFFER_SIZE);
-
-            // char *last_slash = strrchr(directory_path, '/');
-
-            // if (last_slash)
-
-            // {
-
-            //     *last_slash = '\0'; // Remove the file name to isolate the directory path
-
-            //     strcat(directory_path, "/");
-
-            //     printf("Directory path: %s\n", directory_path);
-
-            //     // Create the directory hierarchy
-
-            //     mkdir(directory_path, 0755);
-
-            // }
-
-            // printf("File path: %s\n", filepath);
-
-            // FILE *file = fopen(filepath, "w");
-
-            // if (!file)
-
-            // {
-
-            //     perror("Error opening file for writing");
-
-            //     return;
-
-            // }
-
-            // if (fwrite(writable_content, 1, content_length, file) != content_length)
-
-            // {
-
-            //     perror("Error writing file content");
-
-            //     fclose(file);
-
-            //     return;
-
-            // }
-
-            // fclose(file);
-
-            // printf("File successfully stored at: %s\n", filepath);
-
-            size_t content_length;
+                        size_t content_length;
 
             char writable_content[BUFFER_SIZE];
 
@@ -1169,31 +1051,9 @@ void handle_client(int client_sock)
                     return;
                 }
 
-                strncpy(args->filepath, filepath, BUFFER_SIZE);
-
-                strncpy(args->content, writable_content, BUFFER_SIZE);
-
+                strncpy(args->filepath, filepath, BUFFER_SIZE - 1);
+                strncpy(args->content, writable_content, BUFFER_SIZE - 1);
                 args->content_length = content_length;
-
-                // Create a thread to handle the asynchronous file write
-
-                // pthread_t thread;
-
-                // if (pthread_create(&thread, NULL, async_file_write, args) != 0)
-
-                // {
-
-                //     perror("Failed to create thread for asynchronous file writing");
-
-                //     free(args); // Clean up memory
-
-                //     return;
-                // }
-
-                // // Detach the thread so it cleans up after itself
-
-                // pthread_detach(thread);
-
                 FileAccessControl *file_access = get_file_access(filepath);
 
                 pthread_mutex_lock(&file_access->read_mutex);

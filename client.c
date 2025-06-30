@@ -38,12 +38,14 @@ FileLockEntry file_lock_map[MAX_FILES];
 int file_lock_count = 0;
 pthread_mutex_t file_map_lock = PTHREAD_MUTEX_INITIALIZER;
 
+pthread_mutex_t latest_ip_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 FileLock *get_file_lock(const char *path)
 {
     pthread_mutex_lock(&file_map_lock);
     for (int i = 0; i < file_lock_count; i++)
     {
-        if (strcmp(file_lock_map[i].path, path) == 0)
+        if (strncmp(file_lock_map[i].path, path, BUFFER_SIZE - 1) == 0)
         {
             pthread_mutex_unlock(&file_map_lock);
             return &file_lock_map[i].lock;
@@ -51,7 +53,8 @@ FileLock *get_file_lock(const char *path)
     }
     if (file_lock_count < MAX_FILES)
     {
-        strcpy(file_lock_map[file_lock_count].path, path);
+        strncpy(file_lock_map[file_lock_count].path, path, BUFFER_SIZE - 1);
+        file_lock_map[file_lock_count].path[BUFFER_SIZE - 1] = '\0';
         FileLock *new_lock = &file_lock_map[file_lock_count].lock;
         pthread_mutex_init(&new_lock->lock, NULL);
         pthread_cond_init(&new_lock->cond, NULL);
@@ -176,7 +179,10 @@ void *listen_to_ns(void *arg)
             }
             else if (strncmp("IP", buffer, 2) == 0 || strncmp("File not found in any storage server", buffer, 36) == 0 || strncmp("Unknown command", buffer, 15) == 0)
             {
-                strcpy(latest_IP_and_things_recieved_from_the_ns, buffer);
+                pthread_mutex_lock(&latest_ip_mutex);
+                strncpy(latest_IP_and_things_recieved_from_the_ns, buffer, BUFFER_SIZE - 1);
+                latest_IP_and_things_recieved_from_the_ns[BUFFER_SIZE - 1] = '\0';
+                pthread_mutex_unlock(&latest_ip_mutex);
                 continue;
             }
             else
@@ -232,6 +238,7 @@ void send_request_to_ns(const char *naming_server_ip, int ns_port, const char *c
     printf("Connecting to Naming Server as client ...\n");
     sleep(1);
     pthread_create(&listener_thread, NULL, listen_to_ns, NULL);
+    pthread_detach(listener_thread);
     int flag = 0;
     while (running)
     {
@@ -244,10 +251,13 @@ void send_request_to_ns(const char *naming_server_ip, int ns_port, const char *c
             printf("\nEnter a command: ");
         }
         flag = 1;
-        fgets(command, BUFFER_SIZE, stdin);
+        if (!fgets(command, BUFFER_SIZE, stdin)) {
+            printf("Error reading command.\n");
+            continue;
+        }
         if (strcmp(command, "\n") == 0 || strcmp(command, " ") == 0)
         {
-            printf("Invalid Command\n", command);
+            printf("Invalid Command\n");
             continue;
         }
         command[strcspn(command, "\n")] = 0;
@@ -258,23 +268,32 @@ void send_request_to_ns(const char *naming_server_ip, int ns_port, const char *c
             break;
         }
         printf("Enter file path: ");
-        fgets(file_path, BUFFER_SIZE, stdin);
+        if (!fgets(file_path, BUFFER_SIZE, stdin)) {
+            printf("Error reading file path.\n");
+            continue;
+        }
         file_path[strcspn(file_path, "\n")] = 0;
         if (strcmp(command, "CREATE_DIC") == 0)
         {
             printf("Enter name of directory (without ./): ");
-            fgets(file_name, BUFFER_SIZE, stdin);
+            if (!fgets(file_name, BUFFER_SIZE, stdin)) {
+                printf("Error reading directory name.\n");
+                continue;
+            }
             file_name[strcspn(file_name, "\n")] = 0;
-            strcat(file_path, "/");
-            strcat(file_path, file_name);
+            strncat(file_path, "/", BUFFER_SIZE - strlen(file_path) - 1);
+            strncat(file_path, file_name, BUFFER_SIZE - strlen(file_path) - 1);
         }
         else if (strcmp(command, "CREATE_F") == 0)
         {
             printf("Enter name of file (without ./): ");
-            fgets(file_name, BUFFER_SIZE, stdin);
+            if (!fgets(file_name, BUFFER_SIZE, stdin)) {
+                printf("Error reading file name.\n");
+                continue;
+            }
             file_name[strcspn(file_name, "\n")] = 0;
-            strcat(file_path, "/");
-            strcat(file_path, file_name);
+            strncat(file_path, "/", BUFFER_SIZE - strlen(file_path) - 1);
+            strncat(file_path, file_name, BUFFER_SIZE - strlen(file_path) - 1);
         }
         snprintf(buffer, sizeof(buffer), "%s %s", command, file_path);
         send(ns_sock, buffer, strlen(buffer), 0);
@@ -295,24 +314,29 @@ void send_request_to_ns(const char *naming_server_ip, int ns_port, const char *c
         }
         int bytes_read = 0;
         sleep(1);
-        int byts_read = strlen(latest_IP_and_things_recieved_from_the_ns);
-        if (strncmp(latest_IP_and_things_recieved_from_the_ns, "Unknown command", strlen("Unknown command")) == 0)
+        char local_latest_ip[BUFFER_SIZE];
+        pthread_mutex_lock(&latest_ip_mutex);
+        strncpy(local_latest_ip, latest_IP_and_things_recieved_from_the_ns, BUFFER_SIZE - 1);
+        local_latest_ip[BUFFER_SIZE - 1] = '\0';
+        pthread_mutex_unlock(&latest_ip_mutex);
+        int byts_read = strlen(local_latest_ip);
+        if (strncmp(local_latest_ip, "Unknown command", strlen("Unknown command")) == 0)
         {
             printf("Unknown command: %s\n", command);
             continue;
         }
-        printf("Naming Server sent the details of the storage server:\n%s\n", latest_IP_and_things_recieved_from_the_ns);
+        printf("Naming Server sent the details of the storage server:\n%s\n", local_latest_ip);
         bytes_read = 1;
         if (byts_read > 0)
         {
             buffer[byts_read] = '\0';
-            if (strstr(latest_IP_and_things_recieved_from_the_ns, "File not found in any storage server") != 0)
+            if (strstr(local_latest_ip, "File not found in any storage server") != 0)
             {
                 continue;
             }
             char ss_ip[INET_ADDRSTRLEN];
             int ss_port;
-            sscanf(latest_IP_and_things_recieved_from_the_ns, " IP: %s Port: %d", ss_ip, &ss_port);
+            sscanf(local_latest_ip, " IP: %s Port: %d", ss_ip, &ss_port);
             printf("Connecting to Storage Server at IP: %s, Port: %d\n", ss_ip, ss_port);
             if (strcmp(command, "READ") == 0)
             {
@@ -322,7 +346,10 @@ void send_request_to_ns(const char *naming_server_ip, int ns_port, const char *c
             {
                 char sync_flag[BUFFER_SIZE];
                 printf("Do you want to write synchronously irrespective of time overhead? (yes/no): ");
-                fgets(sync_flag, BUFFER_SIZE, stdin);
+                if (!fgets(sync_flag, BUFFER_SIZE, stdin)) {
+                    printf("Error reading sync flag.\n");
+                    continue;
+                }
                 sync_flag[strcspn(sync_flag, "\n")] = 0;
                 if (strcmp(sync_flag, "yes") == 0)
                     is_sync = 1;
@@ -332,7 +359,10 @@ void send_request_to_ns(const char *naming_server_ip, int ns_port, const char *c
                     snprintf(buffer, sizeof(buffer), "--SYNC");
                 }
                 printf("Enter data to write: ");
-                fgets(buffer + strlen(buffer), BUFFER_SIZE - strlen(buffer), stdin);
+                if (!fgets(buffer + strlen(buffer), BUFFER_SIZE - strlen(buffer), stdin)) {
+                    printf("Error reading data to write.\n");
+                    continue;
+                }
                 connect_and_write_to_ss(ss_ip, ss_port, file_path, buffer);
             }
             else if (strcmp(command, "INFO") == 0)
@@ -347,11 +377,15 @@ void send_request_to_ns(const char *naming_server_ip, int ns_port, const char *c
                     printf("Invalid file extension. Only .mp3 files are supported for streaming.\n");
                     continue;
                 }
+                if (system("which mpv > /dev/null 2>&1") != 0) {
+                    printf("mpv is not installed. Please install mpv to use streaming.\n");
+                    continue;
+                }
                 stream_from_server(ss_ip, ss_port, file_path);
             }
             else if (strcmp(command, "LIST") == 0)
             {
-                printf("List of files in the directory:\n%s\n", latest_IP_and_things_recieved_from_the_ns);
+                printf("List of files in the directory:\n%s\n", local_latest_ip);
                 send(ns_sock, "LIST", strlen("LIST"), 0);
                 sleep(1);
             }

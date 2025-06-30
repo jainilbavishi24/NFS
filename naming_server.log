@@ -1,0 +1,443 @@
+Starting Naming Server...
+Main server thread running, waiting for connections...
+Naming server started in IP AND PORT 172.20.191.0:8090
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9001
+Registered Storage Server from IP: 172.20.191.0, Port: 9001
+Received file list:
+File: testdata1/file2.txt
+File: testdata1/file1.txt
+Directory: testdata1/subdir
+File: testdata1/subdir/file3.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9002
+Registered Storage Server from IP: 172.20.191.0, Port: 9002
+Received file list:
+File: testdata2/file5.txt
+File: testdata2/file4.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9003
+Received from client: CLIENT CONNECTING TO NAMING SERVER ...
+Client connection detected
+Registered Storage Server from IP: 172.20.191.0, Port: 9003
+Received file list:
+File: testdata3/.keep
+
+Received from client: CREATE_F testdata1/hi.txt
+Received from client: CREATE_F testdata1/hi.txt
+Sent command 'CREATE_F' for path 'testdata1/hi.txt' to Storage Server
+Sent command 'CREATE_F' for path 'testdata1/hi.txt' to Storage Server
+Received from client: WRITE testdata1/hi.txttxt
+Received from client: WRITE testdata1/hi.txt
+File not found in any storage server
+Received from client: WRITE testdata1/hi.txt
+Received from client: WRITE testdata1/hi.txt
+File not found in any storage server
+Received from client: LIST testdata11/hi.txt
+Received from client: LIST testdata1
+Received from client: WRITE testdata1/hi.txt
+Received from client: WRITE testdata1/hi.txt
+File not found in any storage server
+Received from client: WRITE testdata1/hi.txt
+Received from client: WRITE testdata1/hi.txt
+File not found in any storage server
+Received from client: testdata1 hi.txthi.txt
+Received from client: testdata1 hi.txt
+Received from client: WRITE testdata1t
+Received from client: WRITE testdata1
+Found in cache
+Found in cache
+Sent Storage Server details to client
+Received from client: WRITE testdata/hi.txtt
+Received from client: WRITE testdata/hi.txt
+File not found in any storage server
+Received from client: WRITE testdata/hi.txt
+Client disconnected
+Received from Storage Server 172.20.191.0:9003: 
+STOP received or connection error
+STOP received or connection error
+Received from Storage Server 172.20.191.0:9002: 
+STOP received or connection error
+STOP received or connection error
+Received from Storage Server :9001: 
+STOP received or connection error
+STOP received or connection error
+Starting Naming Server...
+Main server thread running, waiting for connections...
+Naming server started in IP AND PORT 172.20.191.0:8090
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9001
+Registered Storage Server from IP: 172.20.191.0, Port: 9001
+Received file list:
+File: testdata1/file2.txt
+File: testdata1/file1.txt
+Directory: testdata1/subdir
+File: testdata1/subdir/file3.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9002
+Registered Storage Server from IP: 172.20.191.0, Port: 9002
+Received file list:
+File: testdata2/file5.txt
+File: testdata2/file4.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9003
+Received from client: CLIENT CONNECTING TO NAMING SERVER ...
+Client connection detected
+Registered Storage Server from IP: 172.20.191.0, Port: 9003
+Received file list:
+File: testdata3/.keep
+
+Received from client: CREATE_F testdata1/hi.txt
+Received from client: CREATE_F testdata1/hi.txt
+Sent command 'CREATE_F' for path 'testdata1/hi.txt' to Storage Server
+Sent command 'CREATE_F' for path 'testdata1/hi.txt' to Storage Server
+Received from client: WRITE testdata1/hi.txttxt
+Received from client: WRITE testdata1/hi.txt
+File not found in any storage server
+Received from client: CREATE_DIC testdata1/mydir
+Received from client: CREATE_DIC testdata1/mydir
+Found in cache
+Found in cache
+Sent command 'CREATE_DIC' for path 'testdata1/mydir' to Storage Server
+Sent command 'CREATE_DIC' for path 'testdata1/mydir' to Storage Server
+Sent command 'CREATE_DIC' for path 'testdata1/mydir' to Storage Server
+Received from client: CREATE_F testdata1/mydir/hi.txt
+Received from client: CREATE_F testdata1/mydir/hi.txt
+Sent command 'CREATE_F' for path 'testdata1/mydir/hi.txt' to Storage Server
+Sent command 'CREATE_F' for path 'testdata1/mydir/hi.txt' to Storage Server
+Sent command 'CREATE_F' for path 'testdata1/mydir/hi.txt' to Storage Server
+Sent command 'CREATE_F' for path 'testdata1/mydir/hi.txt' to Storage Server
+Sent command 'CREATE_F' for path 'testdata1/mydir/hi.txt' to Storage Server
+Sent command 'CREATE_F' for path 'testdata1/mydir/hi.txt' to Storage Server
+Received from client: WRITE testdata1/mydir/hi.txttxt
+Received from client: WRITE testdata1/mydir/hi.txt
+Sent Storage Server details to client
+Received from Storage Server 172.20.191.0:9002: WRITE_SUCCESS testdata1/mydir/hi.txt
+WRITE_SUCCESS received
+Received from Storage Server :9001: 
+STOP received or connection error
+STOP received or connection error
+Received from client: READ testdata1/mydir/hi.txtt
+Received from client: READ testdata1/mydir/hi.txt
+Found in cache
+Found in cache
+Sent Storage Server details to client
+Starting Naming Server...
+Main server thread running, waiting for connections...
+Naming server started in IP AND PORT 172.20.191.0:8090
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9001
+Registered Storage Server from IP: 172.20.191.0, Port: 9001
+Received file list:
+Directory: testdata1/mydir
+File: testdata1/mydir/hi.txt
+File: testdata1/file2.txt
+File: testdata1/file1.txt
+File: testdata1/hi.txt
+Directory: testdata1/subdir
+File: testdata1/subdir/file3.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9002
+Registered Storage Server from IP: 172.20.191.0, Port: 9002
+Received file list:
+File: testdata2/file5.txt
+File: testdata2/file4.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9003
+Received from client: CLIENT CONNECTING TO NAMING SERVER ...
+Client connection detected
+Received from client: CREATE_F testdata1/mine.txt
+Received from client: CREATE_F testdata1/mine.txt
+Registered Storage Server from IP: 172.20.191.0, Port: 9003
+Received file list:
+File: testdata3/.keep
+
+Sent command 'CREATE_F' for path 'testdata1/mine.txt' to Storage Server
+Received from client: LIST testdata1LIST .ine.txt
+Received from client: LIST testdata1LIST .
+Received from client: LIST testdata1LIST .
+Received from client: LIST testdata1
+Received from client: WRITE testdata1IST .
+Received from client: WRITE testdata1
+Found in cache
+Found in cache
+Sent Storage Server details to client
+Received from client: testdata1/mine.txt dkne.txt
+Received from client: testdata1/mine.txt dk
+Received from client: WRITE testdata1/mine.txttxt
+Received from client: WRITE testdata1/mine.txt
+Sent Storage Server details to client
+Received from client: WRITE mine.txt1/mine.txt
+Received from client: WRITE mine.txt
+File not found in any storage server
+Received from client: WRITE testdata1/mine.txt
+Received from client: WRITE testdata1/mine.txt
+Found in cache
+Found in cache
+Sent Storage Server details to client
+Received from Storage Server :9001: WRITE_SUCCESS testdata1/mine.txt
+WRITE_SUCCESS received
+Failed to connect to destination server
+Received from Storage Server :9001: 
+STOP received or connection error
+Removing path from cache: testdata1/mine.txt
+STOP received or connection error
+Received from client: READ testdata1/mine.txtt
+Received from client: READ testdata1/mine.txt
+File not found in any storage server
+Received from client: testdata1/mmydir/hi.txt READ
+Received from client: testdata1/mmydir/hi.txt READ
+Received from client: READ testdata1/mydir/hi.txtD
+Received from client: READ testdata1/mydir/hi.txt
+Sent Storage Server details to client
+Received from client: READ testdata1/mine.txt.txt
+Received from client: READ testdata1/mine.txt
+File not found in any storage server
+Received from client: READ testdata1/mine.txt
+Client disconnected
+Received from Storage Server 172.20.191.0:9003: 
+STOP received or connection error
+STOP received or connection error
+Received from Storage Server 172.20.191.0:9002: 
+STOP received or connection error
+STOP received or connection error
+Starting Naming Server...
+Main server thread running, waiting for connections...
+Naming server started in IP AND PORT 172.20.191.0:8090
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9001
+Registered Storage Server from IP: 172.20.191.0, Port: 9001
+Received file list:
+Directory: testdata1/mydir
+File: testdata1/mydir/hi.txt
+File: testdata1/mine.txt
+File: testdata1/file2.txt
+File: testdata1/file1.txt
+File: testdata1/hi.txt
+Directory: testdata1/subdir
+File: testdata1/subdir/file3.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9002
+Registered Storage Server from IP: 172.20.191.0, Port: 9002
+Received file list:
+File: testdata2/file5.txt
+File: testdata2/file4.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9003
+Received from client: CLIENT CONNECTING TO NAMING SERVER ...
+Client connection detected
+Received from client: CREATE_F testdat1/
+Received from client: CREATE_F testdat1/
+Registered Storage Server from IP: 172.20.191.0, Port: 9003
+Received file list:
+File: testdata3/.keep
+
+Directory Not found
+Received from client: CREATE_F testdata1/test.txt
+Received from client: CREATE_F testdata1/test.txt
+Sent command 'CREATE_F' for path 'testdata1/test.txt' to Storage Server
+Received from client: COPY testdata1/mine.txt tet
+Received from client: COPY testdata1/mine.txt te
+Processing COPY command from client: Source: testdata1/mine.txt, Destination: te
+Received from client: COPY testdata1/mine.txt testdata1/test.txt
+Received from client: COPY testdata1/mine.txt testdata1/test.txt
+Processing COPY command from client: Source: testdata1/mine.txt, Destination: testdata1/test.txt
+Received from client: COPY testdata1/test.txt testdata1/mine.txt
+Received from client: COPY testdata1/test.txt testdata1/mine.txt
+Processing COPY command from client: Source: testdata1/test.txt, Destination: testdata1/mine.txt
+Received from Storage Server :9001: 
+STOP received or connection error
+STOP received or connection error
+Received from client: READ testdata1/mine.txt testdata1/mine.txt
+Received from client: READ testdata1/mine.txt
+Sent Storage Server details to client
+Received from client: DELETE testdata1/test.txtestdata1/mine.txt
+Received from client: DELETE testdata1/test.txt
+File not found in any storage server
+                                                                    Starting Naming Server...
+Main server thread running, waiting for connections...
+Naming server started in IP AND PORT 172.20.191.0:8090
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9001
+Registered Storage Server from IP: 172.20.191.0, Port: 9001
+Received file list:
+File: testdata1/test.txt
+Directory: testdata1/mydir
+File: testdata1/mydir/hi.txt
+File: testdata1/mine.txt
+File: testdata1/file2.txt
+File: testdata1/file1.txt
+File: testdata1/hi.txt
+Directory: testdata1/subdir
+File: testdata1/subdir/file3.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9002
+Registered Storage Server from IP: 172.20.191.0, Port: 9002
+Received file list:
+File: testdata2/file5.txt
+File: testdata2/file4.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9003
+Received from client: CLIENT CONNECTING TO NAMING SERVER ...
+Client connection detected
+Received from client: COPY testdata1
+Received from client: COPY testdata1
+Received from client: COPY testdata1/idk.txt
+Received from client: COPY testdata1/idk.txt
+Received from client: READ testdata1/test.txt
+Received from client: READ testdata1/test.txt
+Registered Storage Server from IP: 172.20.191.0, Port: 9003
+Received file list:
+File: testdata3/.keep
+
+Sent Storage Server details to client
+Received from client: CREATE_F testdata1/idk.txt
+Received from client: CREATE_F testdata1/idk.txt
+Sent command 'CREATE_F' for path 'testdata1/idk.txt' to Storage Server
+Received from client: READ testdata1/mine.txttxt
+Received from client: READ testdata1/mine.txt
+Sent Storage Server details to client
+Received from client: READ testdata1/mine.txt
+Received from client: READ testdata1/mine.txt
+Found in cache
+Found in cache
+Sent Storage Server details to client
+Received from client: READ mine.txt1/mine.txt
+Received from client: READ mine.txt
+File not found in any storage server
+Received from client: COPY testdata1/mine.txt testdata1/idk.txt
+Received from client: COPY testdata1/mine.txt testdata1/idk.txt
+Processing COPY command from client: Source: testdata1/mine.txt, Destination: testdata1/idk.txt
+Received from client: DELETE testdata.txt/idk.txttdata1/idk.txt
+Received from client: DELETE testdata.txt/idk.txt
+Received from client: READ testdata1/idk.txtk.txt
+Received from client: READ testdata1/idk.txt
+Sent Storage Server details to client
+Received from client: LIST testdaya1/idk.txt
+Received from client: LIST testdaya1
+Received from client: LIST testdata1
+Received from client: LIST testdata1
+Received from client: DELETE testdata1/idk.txttxt
+Received from client: DELETE testdata1/idk.txt
+Found in cache
+Found in cache
+Sent command 'DELETE' for path 'testdata1/idk.txt' to Storage Server
+Sent command 'DELETE' for path 'testdata1/idk.txt' to Storage Server
+Sent command 'DELETE' for path 'testdata1/idk.txt' to Storage Server
+Removing path from cache: testdata1/idk.txt
+Received from Storage Server :9001: 
+STOP received or connection error
+Removing path from cache: testdata1/mine.txt
+Removing path from cache: testdata1/test.txt
+STOP received or connection error
+Received from client: DELETE testdata1/hi.txtt
+Received from client: DELETE testdata1/hi.txt
+Sent command 'DELETE' for path 'testdata1/hi.txt' to Storage Server
+Sent command 'DELETE' for path 'testdata1/hi.txt' to Storage Server
+Sent command 'DELETE' for path 'testdata1/hi.txt' to Storage Server
+Removing path from cache: testdata1/hi.txt
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9001
+Starting Naming Server...
+Main server thread running, waiting for connections...
+Naming server started in IP AND PORT 172.20.191.0:8090
+Starting Naming Server...
+Main server thread running, waiting for connections...
+Naming server started in IP AND PORT 172.20.191.0:8090
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9001
+Registered Storage Server from IP: 172.20.191.0, Port: 9001
+Received file list:
+File: testdata1/test.txt
+Directory: testdata1/mydir
+File: testdata1/mydir/hi.txt
+File: testdata1/mine.txt
+File: testdata1/file2.txt
+File: testdata1/file1.txt
+Directory: testdata1/subdir
+File: testdata1/subdir/file3.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9002
+Registered Storage Server from IP: 172.20.191.0, Port: 9002
+Received file list:
+File: testdata2/file5.txt
+File: testdata2/file4.txt
+
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9003
+Received from client: CLIENT CONNECTING TO NAMING SERVER ...
+Client connection detected
+Received from client: READ testdata1/mine.txt
+Received from client: READ testdata1/mine.txt
+Registered Storage Server from IP: 172.20.191.0, Port: 9003
+Received file list:
+File: testdata3/.keep
+
+Sent Storage Server details to client
+Received from client: READ testdata1/mine.txtWRITE testdata1/mine.txt
+Received from client: READ testdata1/mine.txtWRITE testdata1/mine.txt
+File not found in any storage server
+Received from Storage Server 172.20.191.0:9001: 
+STOP received or connection error
+Removing path from cache: testdata1/mine.txt
+STOP received or connection error
+Received from client: STORAGE
+Storage Server connection detected
+My IP is 172.20.191.0 and My Port is 9001
+Registered Storage Server from IP: 172.20.191.0, Port: 9001
+Received file list:
+File: testdata1/test.txt
+Directory: testdata1/mydir
+File: testdata1/mydir/hi.txt
+File: testdata1/mine.txt
+File: testdata1/file2.txt
+File: testdata1/file1.txt
+Directory: testdata1/subdir
+File: testdata1/subdir/file3.txt
+
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server
+Failed to connect to source server

@@ -107,7 +107,7 @@ void print_trie_paths1(TrieNode *root, char *path, int level, int client_sock, c
     }
 
     // If this node is the end of a valid path and the server is up
-    if (root->is_end_of_path && root->server && !root->server->is_server_down && !root->is_deleted)
+    if (root->is_end_of_path && root->server != NULL && !root->server->is_server_down && !root->is_deleted)
     {
         path[level] = '\0'; // Null-terminate the string
         // Check if this is a directory or file and send the appropriate message
@@ -153,7 +153,7 @@ void print_trie_paths(TrieNode *root, char *path, int level, int client_sock)
     {
         return;
     }
-    if (root->is_end_of_path && root->server && !root->server->is_server_down && !root->is_deleted)
+    if (root->is_end_of_path && root->server != NULL && !root->server->is_server_down && !root->is_deleted)
     {
         path[level] = '\0'; // Null-terminate the string
         if (root->is_directory)
@@ -380,7 +380,7 @@ StorageServer *search_trie(TrieNode *root, const char *path)
         }
     }
     // Check if the current node marks the end of a valid path and return the server
-    if (current->is_end_of_path && current->server && current->server->is_server_down == 0)
+    if (current->is_end_of_path && current->server != NULL && current->server->is_server_down == 0)
     {
         return current->server;
     }
@@ -527,6 +527,19 @@ void remove_paths_for_server(StorageServer *server)
     pthread_mutex_unlock(&lock); // Release lock
 }
 
+// Helper to clean up TrieNode->server pointers for a removed server
+void clean_trie_server_pointers(TrieNode *node, StorageServer *removed_server) {
+    if (!node) return;
+    if (node->server == removed_server) {
+        node->server = NULL;
+    }
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        if (node->children[i]) {
+            clean_trie_server_pointers(node->children[i], removed_server);
+        }
+    }
+}
+
 // Removes a storage server from the list and updates the trie
 void remove_storage_server(int socket_fd)
 {
@@ -536,6 +549,8 @@ void remove_storage_server(int socket_fd)
     {
         if (storage_servers[i].socket_fd == socket_fd)
         {
+            // Clean up trie pointers before realloc
+            clean_trie_server_pointers(global_trie_root, &storage_servers[i]);
             // Shift remaining servers down in the array
             for (int j = i; j < server_count - 1; j++)
             {
